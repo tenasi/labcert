@@ -1,0 +1,10 @@
+{
+    "dependencies": {
+        "flowbite": "^1.6.3",
+        "tailwindcss": "^3.2.7"
+    },
+    "scripts": {
+        "tailwind": "npx tailwindcss -i ./labcert/static/src/input.css -o ./labcert/static/dist/css/output.css --watch",
+        "flask": "flask --app labcert run --debug"
+    }
+}
