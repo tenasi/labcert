@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} - LabCert</title>
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" /> -->
+    <link rel="stylesheet" href="{{url_for('static',filename='dist/css/output.css')}}">
+    <script src="{{url_for('static',filename='dist/js/load_theme.js')}}"></script>
+</head>
+
+<body class="dark:bg-gray-900 min-h-screen flex flex-col justify-start">
+
+    {% block app %}{% endblock %}
+
+    <footer class="mt-auto w-full p-4 bg-white rounded-lg shadow md:px-6 md:py-6 dark:bg-gray-900">
+        <div class="sm:flex sm:items-center sm:justify-between">
+            <a href="https://www.tenasi.de/" class="flex items-center mb-4 sm:mb-0">
+                <img src="{{url_for('static',filename='dist/assets/tenasi_text.png')}}" class="h-8 mr-3"
+                    alt="Tenasi Logo" />
+            </a>
+            <ul class="flex flex-wrap items-center mb-6 text-sm text-gray-500 sm:mb-0 dark:text-gray-400">
+                <li>
+                    <a href="#" class="mr-4 hover:underline md:mr-6 ">GitHub</a>
+                </li>
+                <li>
+                    <a href="#" class="mr-4 hover:underline md:mr-6">Docker</a>
+                </li>
+                <li>
+                    <a href="#" class="mr-4 hover:underline md:mr-6 ">Unraid Forums</a>
+                </li>
+                <li>
+                    <a href="#" class="hover:underline">Report a Bug</a>
+                </li>
+            </ul>
+        </div>
+        <hr class="my-4 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-4" />
+        <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2022 - 2023 <a
+                href="https://tenasi.de/" class="hover:underline">Tenasi</a>.
+        </span>
+    </footer>
+
+    <script src="{{url_for('static',filename='dist/js/theme_toggle.js')}}"></script>
+    <script src="{{url_for('static',filename='dist/js/flowbite.min.js')}}"></script>
+</body>
+
+</html>
