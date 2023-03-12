@@ -7,6 +7,9 @@ LabCert is still in active development. Version 1.0.0 will be released when it i
 # Building from Source
 TBD
 
+# Usage Guide
+TBD
+
 # Planned Features
 The following features are planned for the first stable release:
 
@@ -17,8 +20,9 @@ The following features are planned for the first stable release:
 | Single Certificate Authority Management   | :white_check_mark: |
 | Single User Management                    | :white_check_mark: |
 | Export of Certificates                    | :white_check_mark: |
-| Multiple Certificate Authority Management | :x:                |
-| Intermediate Certificate Management       | :x:                |
+| Import of Certificates                    | :white_check_mark: |
+| Multiple Certificate Authority Management | :white_check_mark: |
+| Intermediate Certificate Management       | :white_check_mark: |
 | Multi User Management                     | :x:                |
 | Multi Faktor Authentication with TOTPs    | :x:                |
 | OAuth / Social Login (e.g. Google)        | :x:                |
@@ -34,6 +38,7 @@ The following features are planned for the first stable release:
 | Single Certificate Authority Management   | :white_check_mark: |
 | Single User Management                    | :white_check_mark: |
 | Export of Certificates                    | :white_check_mark: |
+| Import of Certificates                    | :white_check_mark: |
 | Multiple Certificate Authority Management | :white_check_mark: |
 | Intermediate Certificate Management       | :white_check_mark: |
 | Multi User Management                     | :grey_question:    |
