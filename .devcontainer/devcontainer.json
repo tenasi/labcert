@@ -22,7 +22,8 @@
 				"ms-python.python",
 				"bradlc.vscode-tailwindcss",
 				"ecmel.vscode-html-css",
-				"qwtel.sqlite-viewer"
+				"qwtel.sqlite-viewer",
+				"GitHub.vscode-pull-request-github"
 			]
 		}
 	},
