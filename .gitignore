@@ -6,6 +6,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+test/
+
 # C extensions
 *.so
 
@@ -14,6 +16,7 @@ __pycache__/
 build/
 develop-eggs/
 dist/
+!labcert/static/dist/
 downloads/
 eggs/
 .eggs/
