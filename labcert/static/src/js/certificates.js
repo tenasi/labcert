@@ -101,17 +101,26 @@
                     certificates[i].classList.remove("hidden")
                     // Check if level is increasing
                     let newLevel = parseInt(certificates[i].cells[2].innerText.trim())
-                    if (newLevel > indentLevel) {
-                        // If level is increasing, remember new level and increase indent factor
-                        indentLevel = newLevel
-                        indentFactor++
-                    } else if (newLevel < indentLevel) {
-                        // If level is decreasing, remember new level and decrease indent factor accordingly
-                        let diff = indentLevel - newLevel
-                        indentLevel = newLevel
-                        indentFactor = indentFactor - diff
+                    // TODO FIXME - THIS CODE SUCKS - MAKE FILTERING BETTER
+                    if (filter.has("Intermediate")) {
+                        if (newLevel > indentLevel) {
+                            // If level is increasing, remember new level and increase indent factor
+                            indentLevel = newLevel
+                            indentFactor++
+                        } else if (newLevel < indentLevel /*3*/) {
+                            // If level is decreasing, remember new level and decrease indent factor accordingly
+                            let diff = indentLevel - newLevel
+                            indentLevel = newLevel
+                            indentFactor = indentFactor - diff
+                        }
+                    } else {
+                        if (newLevel > 1 && filter.has("Root CA")) {
+                            indentFactor = 2
+                        } else {
+                            indentFactor = 1
+                        }
                     }
-                    // Calculate indent and create corresponding indent class tring
+                    // Calculate indent and create corresponding indent class string
                     let newIndent = `pl-${Math.min(indentFactor * 4, 64)}`
                     // Get old indent level from class list
                     let oldIndent = certificates[i].cells[0].classList[0]
@@ -127,13 +136,13 @@
             }
         }
         // Update page bar
-        updatePages()
+        updatePageBar()
     }
 
     /**
      * Update page bar based on @var numberOfPages and @var currentPage
      */
-    function updatePages() {
+    function updatePageBar() {
         // letruct and set page item range indicator
         let firstEntryNumber = (currentPage - 1) * pageSize + 1
         let lastEntryNumber = Math.min((currentPage) * pageSize, numberOfMatches)
