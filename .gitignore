@@ -16,7 +16,6 @@ test/
 build/
 develop-eggs/
 dist/
-!labcert/static/dist/
 downloads/
 eggs/
 .eggs/
