@@ -1,6 +1,6 @@
 import sqlite3
 import os
-
+import datetime
 import click
 from flask import current_app as app
 from flask import g
@@ -53,6 +53,21 @@ def load_db():
         with open(os.path.join(cert_folder, filename), "rb") as file:
             cert = x509.load_pem_x509_certificates(file.read())
             import_certificate(cert[0])
+
+
+def update_status():
+    db = get_db()
+    certs = db.execute("SELECT * FROM certs").fetchall()
+    for cert in certs:
+        if cert["cert_status"] == "Valid":
+            if cert["cert_not_valid_after"] < datetime.datetime.now():
+                db.execute("UPDATE certs SET cert_status = ? WHERE cert_id = ?",
+                           ("Expired", cert["cert_id"]))
+        elif cert["cert_status"] == "Active":
+            if cert["cert_not_valid_before"] >= datetime.datetime.now():
+                db.execute("UPDATE certs SET cert_status = ? WHERE cert_id = ?",
+                           ("Active", cert["cert_id"]))
+    db.commit()
 
 
 @click.command("init-db")
