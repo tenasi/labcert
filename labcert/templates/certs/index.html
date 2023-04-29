@@ -68,7 +68,7 @@
                             <ul class="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200"
                                 aria-labelledby="filterDropdownButton">
                                 <div class="py-1 text-sm text-gray-900 dark:text-white">
-                                    <div>Category</div>
+                                    <div>Type</div>
                                 </div>
                                 <li>
                                     <div class="flex items-center">
@@ -189,7 +189,7 @@
                         <tr>
                             <th scope="col" class="px-4 py-3">Certificate name</th>
                             <th scope="col" class="px-4 py-3">Issuer</th>
-                            <th scope="col" class="px-4 py-3">Category</th>
+                            <th scope="col" class="px-4 py-3">Type</th>
                             <th scope="col" class="px-4 py-3">Start Date</th>
                             <th scope="col" class="px-4 py-3">End Date</th>
                             <th scope="col" class="px-4 py-3">Status</th>
@@ -208,9 +208,9 @@
                             <td class="hidden">{{ cert.cert_id }}</td>
                             <td class="hidden">{{ cert.cert_level }}</td>
                             <td class="hidden">{% if cert.issuer_id %}{{cert.issuer_id}}{% endif %}</td>
-                            <td class="px-4 py-3">{% if cert.issuer_name %}{{cert.issuer_name}}{% else %}-{% endif %}
+                            <td class="px-4 py-3">{% if cert.issuer_id %}{{cert.issuer_name}}{% else %}-{% endif %}
                             </td>
-                            <td class="px-4 py-3">{{ cert.cert_category }}</td>
+                            <td class="px-4 py-3">{{ cert.cert_type }}</td>
                             <td class="px-4 py-3">{{ cert.cert_not_valid_before.strftime('%d.%m.%Y %H:%M:%S') }}</td>
                             <td class="px-4 py-3">{{ cert.cert_not_valid_after.strftime('%d.%m.%Y %H:%M:%S') }}</td>
                             <td class="px-4 py-3">
