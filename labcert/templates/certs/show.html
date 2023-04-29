@@ -1,0 +1,220 @@
+{% extends 'app.html' %}
+
+{% block title %}Not Found{% endblock %}
+
+{% block content %}
+
+<nav class="px-4 flex" aria-label="Breadcrumb">
+    <ol class="inline-flex items-center space-x-1 md:space-x-3">
+        <li class="inline-flex items-center">
+            <a href="/certs"
+                class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                <svg aria-hidden="true" class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
+                    </path>
+                </svg>
+                Home
+            </a>
+        </li>
+        {% for hcert in hierarchy %}
+        <li>
+            <div class="flex items-center">
+                <svg aria-hidden="true" class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                        clip-rule="evenodd"></path>
+                </svg>
+                <a href="/certs/{{hcert.cert_id}}"
+                    class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">
+                    {{ hcert.cert_name }}
+                </a>
+            </div>
+        </li>
+        {% endfor %}
+    </ol>
+</nav>
+
+<section class="bg-white dark:bg-gray-900">
+    <div class="grid pt-8 px-4 mx-auto max-w-screen-xl lg:gap-8 xl:gap-0 lg:pt-8 lg:grid-cols-12">
+        <div class="place-self-center mr-auto lg:col-span-7">
+            <h1
+                class="mb-4 max-w-2xl text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white">
+                {{cert.cert_name}}
+            </h1>
+            <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
+                This certificate has been created on {{cert.cert_created}}.
+            </div>
+        </div>
+        <div class="lg:mt-0 lg:col-span-5 lg:flex">
+            <div class="ml-auto max-w-screen-xl">
+                {% if cert.cert_status == "Valid" %}
+                <span
+                    class="bg-green-100 text-green-800 text-xl font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
+                    Valid
+                </span>
+                {% elif cert.cert_status == "Active" %}
+                <span
+                    class="bg-green-100 text-green-800 text-xl font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
+                    Active
+                </span>
+                {% elif cert.cert_status == "Expired" %}
+                <span
+                    class="bg-gray-100 text-gray-800 text-xl font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-600 dark:text-gray-300">
+                    Expired
+                </span>
+                {% elif cert.cert_status == "Revoked" %}
+                <span
+                    class="bg-yellow-100 text-yellow-800 text-xl font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">
+                    Revoked
+                </span>
+                {% elif cert.cert_status == "Error" %}
+                <span
+                    class="bg-red-100 text-red-800 text-xl font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
+                    Error
+                </span>
+                {% endif %}
+            </div>
+        </div>cert_id
+</section>
+
+<section class="bg-white dark:bg-gray-900">
+    <div class="py-8 px-4 mx-auto max-w-screen-xl">
+        <div class="place-self-center mr-auto">
+            <form>
+                <h4 class="text-2xl font-bold text-gray-500 dark:text-gray-400 mb-6">Certificate Properties</h4>
+                <div class="relative z-0 w-full mb-6 group">
+                    <input type="text" name="cert_name" id="cert_name"
+                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 appearance-none dark:text-white dark:border-primary-600 focus:outline-none focus:ring-0 border-primary-600 peer"
+                        placeholder=" " value="{{cert.cert_name}}" required />
+                    <label for="cert_name"
+                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary-600 peer-focus:dark:text-primary-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                        Certificate Name
+                    </label>
+                </div>
+                <div class="grid md:grid-cols-2 md:gap-6">
+                    <div class="relative z-0 w-full mb-6 group">
+                        <input type="text" name="cert_type" id="cert_type"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-primary-600 focus:outline-none focus:ring-0 focus:border-primary-600 peer"
+                            placeholder=" " value="{{cert.cert_type}}" disabled="disabled" equired />
+                        <label for="cert_type"
+                            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary-600 peer-focus:dark:text-primary-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                            Certificate Type
+                        </label>
+                    </div>
+                    <div class="relative z-0 w-full mb-6 group">
+                        <input type="text" name="cert_level" id="cert_level"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-primary-600 focus:outline-none focus:ring-0 focus:border-primary-600 peer"
+                            placeholder=" " value="{{cert.cert_level}}" disabled="disabled" required />
+                        <label for="cert_level"
+                            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary-600 peer-focus:dark:text-primary-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                            Certificate Level
+                        </label>
+                    </div>
+                </div>
+                <div class="relative z-0 w-full mb-6 group">
+                    <input type="text" name="cert_serial" id="cert_serial"
+                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-primary-600 focus:outline-none focus:ring-0 focus:border-primary-600 peer"
+                        placeholder=" " value="{{cert.cert_serial}}" disabled="disabled" required />
+                    <label for="cert_serial"
+                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary-600 peer-focus:dark:text-primary-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                        Certificate Serial Number
+                    </label>
+                </div>
+                <div class="grid md:grid-cols-2 md:gap-6">
+                    <div class="relative z-0 w-full mb-6 group">
+                        <input type="datetime-local" name="cert_not_valid_before" id="cert_not_valid_before"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-primary-600 focus:outline-none focus:ring-0 focus:border-primary-600 peer"
+                            placeholder=" " value="{{cert.cert_not_valid_before.strftime('%Y-%m-%dT%H:%M:%S')}}"
+                            disabled="disabled" step="1" required />
+                        <label for="cert_not_valid_before"
+                            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary-600 peer-focus:dark:text-primary-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                            Certificate Not Valid Before
+                        </label>
+                    </div>
+                    <div class="relative z-0 w-full mb-6 group">
+                        <input type="datetime-local" name="cert_not_valid_after" id="cert_not_valid_after"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-primary-600 focus:outline-none focus:ring-0 focus:border-primary-600 peer"
+                            placeholder=" " value="{{cert.cert_not_valid_after.strftime('%Y-%m-%dT%H:%M:%S')}}"
+                            disabled="disabled" step="1" required />
+                        <label for="cert_not_valid_after"
+                            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary-600 peer-focus:dark:text-primary-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                            Certificate Not Valid After
+                        </label>
+                    </div>
+                </div>
+
+                <h4 class="text-2xl font-bold text-gray-500 dark:text-gray-400 mb-6">Subject Properties</h4>
+                <div class="relative z-0 w-full mb-6 group">
+                    <textarea name="subject_name" id="subject_name"
+                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-primary-600 focus:outline-none focus:ring-0 focus:border-primary-600 peer"
+                        placeholder=" " rows=8 disabled="disabled"
+                        required>{{"\n".join(cert.subject_name.split(", "))}}</textarea>
+                    <label for="subject_name"
+                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary-600 peer-focus:dark:text-primary-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                        Subject Name
+                    </label>
+                </div>
+                <div class="grid md:grid-cols-2 md:gap-6">
+                    <div class="relative z-0 w-full mb-6 group">
+                        <input type="text" name="subject_algorithm" id="subject_algorithm"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-primary-600 focus:outline-none focus:ring-0 focus:border-primary-600 peer"
+                            placeholder=" " value="{{cert.subject_algorithm}}" disabled="disabled" equired />
+                        <label for="subject_algorithm"
+                            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary-600 peer-focus:dark:text-primary-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                            Subject Key Algorithm
+                        </label>
+                    </div>
+                    <div class="relative z-0 w-full mb-6 group">
+                        <input type="text" name="subject_strength" id="subject_strength"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-primary-600 focus:outline-none focus:ring-0 focus:border-primary-600 peer"
+                            placeholder=" " value="{{cert.subject_strength}}" disabled="disabled" required />
+                        <label for="subject_strength"
+                            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary-600 peer-focus:dark:text-primary-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                            Subject Key Strength
+                        </label>
+                    </div>
+                </div>
+
+                {% if cert.issuer_id %}
+                <h4 class="text-2xl font-bold text-gray-500 dark:text-gray-400 mb-6">Issuer Properties</h4>
+                <div class="relative z-0 w-full mb-6 group">
+                    <input type="text" name="issuer_name" id="issuer_name"
+                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-primary-600 focus:outline-none focus:ring-0 focus:border-primary-600 peer"
+                        placeholder=" " value="{{cert.issuer_name}}" disabled="disabled" required />
+                    <label for="issuer_name"
+                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary-600 peer-focus:dark:text-primary-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                        Issuer Name
+                    </label>
+                </div>
+                <div class="grid md:grid-cols-2 md:gap-6">
+                    <div class="relative z-0 w-full mb-6 group">
+                        <input type="text" name="issuer_type" id="issuer_type"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-primary-600 focus:outline-none focus:ring-0 focus:border-primary-600 peer"
+                            placeholder=" " value="{{cert.issuer_type}}" disabled="disabled" equired />
+                        <label for="issuer_type"
+                            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary-600 peer-focus:dark:text-primary-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                            Issuer Type
+                        </label>
+                    </div>
+                    <div class="relative z-0 w-full mb-6 group">
+                        <input type="text" name="issuer_level" id="issuer_level"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-primary-600 focus:outline-none focus:ring-0 focus:border-primary-600 peer"
+                            placeholder=" " value="{{cert.cert_level - 1}}" disabled="disabled" required />
+                        <label for="issuer_level"
+                            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary-600 peer-focus:dark:text-primary-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                            Issuer Level
+                        </label>
+                    </div>
+                </div>
+                {% endif %}
+                <button type="submit"
+                    class="w-full md:w-32 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Update</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
