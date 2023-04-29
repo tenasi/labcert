@@ -223,11 +223,11 @@
             // Get certificate issuer name from row
             let issuerName = row.cells[4].innerText.trim().toLowerCase()
             // Get certificate catgory from row
-            let certCategory = row.cells[5].innerText.trim()
+            let certType = row.cells[5].innerText.trim()
             // Get certificate status from row
             let certStatus = row.cells[8].innerText.trim()
             // Check if certificate matches filter and match function
-            if (filter.has(certCategory) && filter.has(certStatus) && match(certName, issuerName)) {
+            if (filter.has(certType) && filter.has(certStatus) && match(certName, issuerName)) {
                 // If certificate matches set corresponding entry in matches
                 matches[i] = true
                 // Ensure that all issuing certificates in the chain are also included in matches
@@ -236,10 +236,10 @@
                     issuerId = parseInt(issuerId)
                     // Get issuer row number from map
                     let issuerRowId = certIdMap[issuerId]
-                    // Get issuer category from certificate table
-                    let issuerCategory = certificates[issuerRowId].cells[5].innerText.trim()
-                    // Check if issuer category matches current filter and add to matches
-                    matches[issuerRowId] = filter.has(issuerCategory)
+                    // Get issuer type from certificate table
+                    let issuerType = certificates[issuerRowId].cells[5].innerText.trim()
+                    // Check if issuer type matches current filter and add to matches
+                    matches[issuerRowId] = filter.has(issuerType)
                     // Get issuer id from issuer for next loop
                     issuerId = certificates[issuerRowId].cells[3].innerText.trim()
                 }
