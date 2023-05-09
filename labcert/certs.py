@@ -1,6 +1,8 @@
 from flask import Blueprint
 from flask import render_template
 from flask import current_app
+from flask import request
+from flask import flash
 from werkzeug.local import LocalProxy
 
 from labcert.auth import login_required
@@ -47,8 +49,8 @@ def samples():
     db.execute(
         "INSERT INTO certs (cert_name, cert_level, cert_type,\
         cert_status, cert_serial, cert_not_valid_before, cert_not_valid_after,\
-        subject_name, subject_algorithm, subject_strength, issuer_id, issuer_name)\
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        subject_name, subject_algorithm, subject_strength, issuer_id, issuer_name,\
+        issuer_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         (
             "Tenasi Intermediate",
             2,
@@ -62,13 +64,14 @@ def samples():
             "4096",
             1,
             "Tenasi Root",
+            "Root CA",
         ),
     )
     db.execute(
         "INSERT INTO certs (cert_name, cert_level, cert_type,\
         cert_status, cert_serial, cert_not_valid_before, cert_not_valid_after,\
-        subject_name, subject_algorithm, subject_strength, issuer_id, issuer_name)\
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        subject_name, subject_algorithm, subject_strength, issuer_id, issuer_name,\
+        issuer_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         (
             "Unifi",
             3,
@@ -82,13 +85,14 @@ def samples():
             "4096",
             2,
             "Tenasi Intermediate",
+            "Intermediate",
         ),
     )
     db.execute(
         "INSERT INTO certs (cert_name, cert_level, cert_type,\
         cert_status, cert_serial, cert_not_valid_before, cert_not_valid_after,\
-        subject_name, subject_algorithm, subject_strength, issuer_id, issuer_name)\
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        subject_name, subject_algorithm, subject_strength, issuer_id, issuer_name,\
+        issuer_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         (
             "Optimus",
             3,
@@ -102,13 +106,14 @@ def samples():
             "4096",
             2,
             "Tenasi Intermediate",
+            "Intermediate",
         ),
     )
     db.execute(
         "INSERT INTO certs (cert_name, cert_level, cert_type,\
         cert_status, cert_serial, cert_not_valid_before, cert_not_valid_after,\
-        subject_name, subject_algorithm, subject_strength, issuer_id, issuer_name)\
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        subject_name, subject_algorithm, subject_strength, issuer_id, issuer_name,\
+        issuer_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         (
             "LabCert",
             3,
@@ -122,6 +127,7 @@ def samples():
             "4096",
             2,
             "Tenasi Intermediate",
+            "Intermediate",
         ),
     )
     db.commit()
@@ -139,10 +145,19 @@ def index():
     return render_template("certs/index.html", certs=certs)
 
 
-@bp.route("/<int:id>")
+@bp.route("/<int:id>", methods=("GET", "POST"))
 @login_required
 def show(id):
     db = get_db()
+    if request.method == "POST":
+        cert_name = request.form["cert_name"]
+        if cert_name:
+            db.execute(
+                "UPDATE certs SET cert_name = ? WHERE cert_id = ?", (cert_name, id)
+            )
+            db.commit()
+        else:
+            flash("Certificate Name cannot be empty.")
     cert = db.execute("SELECT * FROM certs WHERE cert_id = ?", (id,)).fetchone()
     hierarchy = list()
     hierarchy.append(cert)
