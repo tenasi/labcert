@@ -1,10 +1,26 @@
 {
     "dependencies": {
+        "concurrently": "^8.0.1",
         "flowbite": "^1.6.3",
-        "tailwindcss": "^3.2.7"
+        "tailwindcss": "^3.2.7",
+        "uglify-js": "^3.17.4",
+        "watch": "^0.13.0"
     },
     "scripts": {
-        "tailwind": "npx tailwindcss -i ./labcert/static/src/input.css -o ./labcert/static/dist/css/output.css --watch",
-        "flask": "flask --app labcert run --debug"
+        "func:copy:js": "mkdir -p ./labcert/static/dist/js && cd ./labcert/static/src/js/ && for f in *js; do cp $f ../../dist/js/$(echo $f | sed \"s/.js/.min.js/g\"); done",
+        "func:copy:fonts": "mkdir -p ./labcert/static/dist/fonts && cp -r ./labcert/static/src/fonts/* ./labcert/static/dist/fonts/",
+        "func:copy:assets": "mkdir -p ./labcert/static/dist/assets && cp -r ./labcert/static/src/assets/* ./labcert/static/dist/assets/",
+        "dev:tailwind": "npx tailwindcss -i ./labcert/static/src/css/input.css -o ./labcert/static/dist/css/output.css --watch",
+        "prod:tailwind": "npx tailwindcss -i ./labcert/static/src/css/input.css -o ./labcert/static/dist/css/output.css --minify",
+        "dev:uglify": "npx watch \"npm run func:copy:js\" ./labcert/static/src/js/",
+        "prod:uglify": "cd ./labcert/static/src/ && for f in *js; do npx uglifyjs $f --compress --mangle --output ../dist/js/$(echo $f | sed \"s/.js/.min.js/g\"); done",
+        "dev:flask": "flask --app labcert run --debug",
+        "prod:flask": "flask --app labcert run",
+        "dev:fonts": "npx watch \"npm run func:copy:fonts\" ./labcert/static/src/fonts/",
+        "prod:fonts": "npm run func:copy:fonts",
+        "dev:assets": "npx watch \"npm run func:copy:assets\" ./labcert/static/src/assets/",
+        "prod:assets": "npm run func:copy:assets",
+        "dev": "npx concurrently \"npm run dev:flask\" \"npm run dev:tailwind\" \"npm run dev:uglify\" \"npm run dev:assets\" \"npm run dev:fonts\" --kill-others",
+        "prod:build": "npm run prod:tailwind && npm run prod:uglify && npm run prod:assets && npm run prod:fonts"
     }
 }
