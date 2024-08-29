@@ -27,7 +27,6 @@ class settings:
 @login_required
 def samples():
     db = get_db()
-    init_db()
     db.execute(
         "INSERT INTO certs (cert_name, cert_level, cert_type,\
         cert_status, cert_serial, cert_not_valid_before, cert_not_valid_after,\
@@ -133,16 +132,40 @@ def samples():
     db.commit()
     certs = db.execute("SELECT * FROM certs").fetchall()
     update_status()
-    print(len(certs))
     return "Done."
 
 
 @bp.route("/")
 @login_required
 def index():
+    update_status()
     db = get_db()
     certs = db.execute("SELECT * FROM certs").fetchall()
     return render_template("certs/index.html", certs=certs)
+
+
+@bp.route("/create", methods=("GET", "POST"))
+@login_required
+def create():
+    update_status()
+    db = get_db()
+    issuers = db.execute(
+        "SELECT * FROM certs \
+        WHERE (cert_type = 'Root CA' OR cert_type = 'Intermediate') \
+        AND (cert_status = 'Active' OR cert_status = 'Valid')"
+    ).fetchall()
+
+    if request.method == "POST":
+        db = get_db()
+        # cert_name = request.form["cert_name"]
+        # if cert_name:
+        #     db.execute(
+        #         "UPDATE certs SET cert_name = ? WHERE cert_id = ?", (cert_name, id)
+        #     )
+        #     db.commit()
+        # else:
+        #     flash("Certificate Name cannot be empty.")
+    return render_template("certs/create.html", issuers=issuers)
 
 
 @bp.route("/<int:id>", methods=("GET", "POST"))
