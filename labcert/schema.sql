@@ -1,0 +1,21 @@
+-- Initialize the database.
+-- Drop any existing data and create empty tables.
+
+-- DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS certs;
+
+CREATE TABLE user (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS certs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    issuer INTEGER KEY,
+    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    serial_number TEXT NOT NULL,
+    not_valid_before TIMESTAMP NOT NULL,
+    not_valid_after TIMESTAMP NOT NULL,
+    subject_cn TIMESTAMP NOT NULL
+);
