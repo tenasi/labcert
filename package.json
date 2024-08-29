@@ -16,11 +16,12 @@
         "prod:uglify": "cd ./labcert/static/src/ && for f in *js; do npx uglifyjs $f --compress --mangle --output ../dist/js/$(echo $f | sed \"s/.js/.min.js/g\"); done",
         "dev:flask": "flask --app labcert run --debug",
         "prod:flask": "flask --app labcert run",
+        "dev:init": "flask --app labcert init-db",
         "dev:fonts": "npx watch \"npm run func:copy:fonts\" ./labcert/static/src/fonts/",
         "prod:fonts": "npm run func:copy:fonts",
         "dev:assets": "npx watch \"npm run func:copy:assets\" ./labcert/static/src/assets/",
         "prod:assets": "npm run func:copy:assets",
-        "dev": "npx concurrently \"npm run dev:flask\" \"npm run dev:tailwind\" \"npm run dev:uglify\" \"npm run dev:assets\" \"npm run dev:fonts\" --kill-others",
+        "dev:all": "npx concurrently \"npm run dev:flask\" \"npm run dev:tailwind\" \"npm run dev:uglify\" \"npm run dev:assets\" \"npm run dev:fonts\" --kill-others",
         "prod:build": "npm run prod:tailwind && npm run prod:uglify && npm run prod:assets && npm run prod:fonts"
     }
 }
