@@ -1,0 +1,204 @@
+{% extends 'app.html' %}
+
+{% block title %}Create Certificate{% endblock %}
+
+{% block content %}
+
+<nav class="px-4 flex" aria-label="Breadcrumb">
+    <ol class="inline-flex items-center space-x-1 md:space-x-3">
+        <li class="inline-flex items-center">
+            <a href="/certs"
+                class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                <svg aria-hidden="true" class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
+                    </path>
+                </svg>
+                Home
+            </a>
+        </li>
+        <li>
+            <div class="flex items-center">
+                <svg aria-hidden="true" class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                        clip-rule="evenodd"></path>
+                </svg>
+                <a href="/certs/create"
+                    class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">
+                    Create Certificate
+                </a>
+            </div>
+        </li>
+    </ol>
+</nav>
+
+<section class="bg-white dark:bg-gray-900">
+    <div class="grid pt-8 px-4 mx-auto max-w-screen-xl lg:gap-8 xl:gap-0 lg:pt-8 lg:grid-cols-12">
+        <div class="place-self-center mr-auto lg:col-span-7">
+            <h1
+                class="mb-4 max-w-2xl text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white">
+                Create Certificate
+            </h1>
+        </div>
+    </div>
+</section>
+
+<section class="bg-white dark:bg-gray-900">
+    <div class="py-8 px-4 mx-auto max-w-screen-xl">
+        <div class="place-self-center mr-auto">
+            <form>
+                <div class="pb-8 mx-auto max-w-screen-xl">
+                    <div class="grid md:grid-cols-3 md:gap-6">
+                        <div class="flex items-center pl-4 border-2 border-gray-200 rounded dark:border-gray-700">
+                            <input id="typeRootRadio" type="radio" value="" name="bordered-radio"
+                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="typeRootRadio"
+                                class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                Root CA
+                            </label>
+                        </div>
+                        <div class="flex items-center pl-4 border-2 border-gray-200 rounded dark:border-gray-700">
+                            <input id="typeIntermediateRadio" type="radio" value="" name="bordered-radio"
+                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="typeIntermediateRadio"
+                                class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                Intermediate
+                            </label>
+                        </div>
+                        <div class="flex items-center pl-4 border-2 border-gray-200 rounded dark:border-gray-700">
+                            <input checked id="typeEndEntityRadio" type="radio" value="" name="bordered-radio"
+                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="typeEndEntityRadio"
+                                class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                End Entity
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <h4 id="selectIssuerTitle" class="text-2xl font-bold text-gray-500 dark:text-gray-400 mb-6">Select
+                    Issuer</h4>
+                <div id="selectIssuerContent" class="relative z-0 w-full mb-6 group">
+                    <select id="issuer_id" required
+                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 appearance-none dark:text-white focus:outline-none focus:ring-0 border-gray-200 dark:border-gray-700 focus:border-primary-600 focus:dark:border-primary-600 peer">
+                        <option class="hidden" value=""></option>
+                        {% for issuer in issuers %}
+                        <option class="dark:bg-gray-800" value="{{issuer.cert_id}},{{issuer.cert_level}}">
+                            {{issuer.cert_name}} ({{issuer.cert_type}} - Level {{issuer.cert_level}})
+                        </option>
+                        {% endfor %}
+                    </select>
+                    <label for="issuer_id"
+                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary-600 peer-focus:dark:text-primary-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                        Issuer Name
+                    </label>
+                </div>
+
+
+                <h4 class="text-2xl font-bold text-gray-500 dark:text-gray-400 mb-6">Certificate Properties</h4>
+                <div class="relative z-0 w-full mb-6 group">
+                    <input type="text" name="cert_name" id="cert_name"
+                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 appearance-none dark:text-white focus:outline-none focus:ring-0 border-gray-200 dark:border-gray-700 focus:border-primary-600 focus:dark:border-primary-600 peer"
+                        placeholder=" " value="" required />
+                    <label for="cert_name"
+                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary-600 peer-focus:dark:text-primary-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                        Certificate Name
+                    </label>
+                </div>
+                <div class="grid md:grid-cols-2 md:gap-6">
+                    <div class="relative z-0 w-full mb-6 group">
+                        <input type="text" name="cert_type" id="cert_type"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 appearance-none dark:text-white focus:outline-none focus:ring-0 border-gray-200 dark:border-gray-700 focus:border-primary-600 focus:dark:border-primary-600 peer"
+                            placeholder=" " value="End Entity" disabled="disabled" required />
+                        <label for="cert_type"
+                            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary-600 peer-focus:dark:text-primary-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                            Certificate Type
+                        </label>
+                    </div>
+                    <div class="relative z-0 w-full mb-6 group">
+                        <input type="text" name="cert_level" id="cert_level"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 appearance-none dark:text-white focus:outline-none focus:ring-0 border-gray-200 dark:border-gray-700 focus:border-primary-600 focus:dark:border-primary-600 peer"
+                            placeholder=" " value="" disabled="disabled" required />
+                        <label for="cert_level"
+                            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary-600 peer-focus:dark:text-primary-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                            Certificate Level
+                        </label>
+                    </div>
+                </div>
+                <div class="relative z-0 w-full mb-6 group">
+                    <input type="text" name="cert_serial" id="cert_serial"
+                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 appearance-none dark:text-white focus:outline-none focus:ring-0 border-gray-200 dark:border-gray-700 focus:border-primary-600 focus:dark:border-primary-600 peer"
+                        placeholder=" " value="" required />
+                    <label for="cert_serial"
+                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary-600 peer-focus:dark:text-primary-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                        Certificate Serial Number (optional)
+                    </label>
+                </div>
+                <div class="grid md:grid-cols-2 md:gap-6">
+                    <div class="relative z-0 w-full mb-6 group">
+                        <input type="datetime-local" name="cert_not_valid_before" id="cert_not_valid_before"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 appearance-none dark:text-white focus:outline-none focus:ring-0 border-gray-200 dark:border-gray-700 focus:border-primary-600 focus:dark:border-primary-600 peer"
+                            placeholder=" " value="" step="1" required />
+                        <label for="cert_not_valid_before"
+                            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary-600 peer-focus:dark:text-primary-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                            Certificate Not Valid Before
+                        </label>
+                    </div>
+                    <div class="relative z-0 w-full mb-6 group">
+                        <input type="datetime-local" name="cert_not_valid_after" id="cert_not_valid_after"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 appearance-none dark:text-white focus:outline-none focus:ring-0 border-gray-200 dark:border-gray-700 focus:border-primary-600 focus:dark:border-primary-600 peer"
+                            placeholder=" " value="" step="1" required />
+                        <label for="cert_not_valid_after"
+                            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary-600 peer-focus:dark:text-primary-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                            Certificate Not Valid After
+                        </label>
+                    </div>
+                </div>
+
+                <h4 class="text-2xl font-bold text-gray-500 dark:text-gray-400 mb-6">Subject Properties</h4>
+                <div class="relative z-0 w-full mb-6 group">
+                    <textarea name="subject_name" id="subject_name"
+                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 appearance-none dark:text-white focus:outline-none focus:ring-0 border-gray-200 dark:border-gray-700 focus:border-primary-600 focus:dark:border-primary-600 peer"
+                        placeholder=" " rows=8 required></textarea>
+                    <label for="subject_name"
+                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary-600 peer-focus:dark:text-primary-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                        Subject Name
+                    </label>
+                </div>
+                <div class="grid md:grid-cols-2 md:gap-6">
+                    <div class="relative z-0 w-full mb-6 group">
+                        <select id="subject_algorithm" required
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 appearance-none dark:text-white focus:outline-none focus:ring-0 border-gray-200 dark:border-gray-700 focus:border-primary-600 focus:dark:border-primary-600 peer">
+                            <option class="dark:bg-gray-800" value="RSA">
+                                RSA
+                            </option>
+                        </select>
+                        <label for="subject_algorithm"
+                            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary-600 peer-focus:dark:text-primary-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                            Subject Key Algorithm
+                        </label>
+                    </div>
+                    <div class="relative z-0 w-full mb-6 group">
+                        <input type="text" name="subject_strength" id="subject_strength"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 appearance-none dark:text-white focus:outline-none focus:ring-0 border-gray-200 dark:border-gray-700 focus:border-primary-600 focus:dark:border-primary-600 peer"
+                            placeholder=" " value="" required />
+                        <label for="subject_strength"
+                            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary-600 peer-focus:dark:text-primary-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                            Subject Key Strength
+                        </label>
+                    </div>
+                </div>
+                <button type="submit"
+                    class="w-full md:w-32 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Update</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script src="{{url_for('static',filename='dist/js/issuers.min.js')}}"></script>
+
+{% endblock %}
