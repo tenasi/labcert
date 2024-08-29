@@ -9,6 +9,7 @@
     let filterRootCheckbox = document.getElementById("filterRootCheckbox")
     let filterInterCheckbox = document.getElementById("filterInterCheckbox")
     let filterEndCheckbox = document.getElementById("filterEndCheckbox")
+    let filterActiveCheckbox = document.getElementById("filterActiveCheckbox")
     let filterValidCheckbox = document.getElementById("filterValidCheckbox")
     let filterExpiredCheckbox = document.getElementById("filterExpiredCheckbox")
     let filterRevokedCheckbox = document.getElementById("filterRevokedCheckbox")
@@ -282,6 +283,10 @@
         if (filterEndCheckbox.checked) {
             filter.add("End Entity")
         }
+        // Check if Active checkbox is set and add to filter if set
+        if (filterActiveCheckbox.checked) {
+            filter.add("Active")
+        }
         // Check if Valid checkbox is set and add to filter if set
         if (filterValidCheckbox.checked) {
             filter.add("Valid")
@@ -417,6 +422,7 @@
     filterRootCheckbox.addEventListener("click", updateFilter)
     filterInterCheckbox.addEventListener("click", updateFilter)
     filterEndCheckbox.addEventListener("click", updateFilter)
+    filterActiveCheckbox.addEventListener("click", updateFilter)
     filterValidCheckbox.addEventListener("click", updateFilter)
     filterExpiredCheckbox.addEventListener("click", updateFilter)
     filterRevokedCheckbox.addEventListener("click", updateFilter)
