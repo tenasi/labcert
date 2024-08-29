@@ -2,7 +2,7 @@
 LabCert is an open-source application for simple and flexible certificate management. It is ideal for home labs or home networks in general. Existing PKI management software like OpenXPKI or Hashicorps Vault is either relatively complex or is missing a fancy and intuitive user interface. Most of the existing solutions are solely focused on enterprise customers. LabCert on the other hand is for everyone who just wants an intuitive and simple UI to generate basic (RSA) certificates for a home lab (network).
 
 # DISCLAIMER
-LabCert is still in active development. Version 1.0.0 will be released when it is ready. However, if you have any additional feature requests or feel features should be prioritized differently, feel free to open an issue.
+LabCert is still in active development. Version 1.0.0 will be released when it is ready. However, if you have any additional feature requests or belive features should be prioritized differently, feel free to open an issue.
 
 # Building from Source
 TBD
@@ -11,7 +11,7 @@ TBD
 TBD
 
 # Planned Features
-The following features are planned for the first stable release:
+The following table contains a list of features currently planned for the first stable release (1.0.0). The second table contains features that MAY be added in future 1.X.0 releases. After the first stable release, all minor releases (1.0.X) will only include bug fixes and minor improvements, while major releases (1.X.0) will include new features.
 
 ## Version 1.0.0
 
@@ -31,7 +31,7 @@ The following features are planned for the first stable release:
 | OCSP Responder                            | :x:                |
 | SSH / Non-RSA Key Management              | :x:                |
 
-## Version 1.1.0
+## Version 1.X.0
 
 | Feature                                   | Planned            |
 | ----------------------------------------- | ------------------ |
