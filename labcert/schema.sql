@@ -11,11 +11,18 @@ CREATE TABLE IF NOT EXISTS user (
 );
 
 CREATE TABLE IF NOT EXISTS certs (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    issuer INTEGER KEY,
-    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    serial_number TEXT NOT NULL,
-    not_valid_before TIMESTAMP NOT NULL,
-    not_valid_after TIMESTAMP NOT NULL,
-    subject_cn TIMESTAMP NOT NULL
+    cert_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    cert_name TEXT NOT NULL,
+    cert_level INTEGER NOT NULL,
+    cert_category TEXT NOT NULL,
+    cert_status TEXT NOT NULL,
+    cert_created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    cert_serial TEXT NOT NULL,
+    cert_not_valid_before TIMESTAMP NOT NULL,
+    cert_not_valid_after TIMESTAMP NOT NULL,
+    subject_cn TEXT NOT NULL,
+    subject_algorithm TEXT NOT NULL,
+    subject_strength TEXT NOT NULL,
+    issuer_id INTEGER,
+    issuer_name TEXT
 );
