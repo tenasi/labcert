@@ -208,7 +208,8 @@
                             <td class="hidden">{{ cert.cert_id }}</td>
                             <td class="hidden">{{ cert.cert_level }}</td>
                             <td class="hidden">{% if cert.issuer_id %}{{cert.issuer_id}}{% endif %}</td>
-                            <td class="px-4 py-3">{{ cert.issuer_name }}</td>
+                            <td class="px-4 py-3">{% if cert.issuer_name %}{{cert.issuer_name}}{% else %}-{% endif %}
+                            </td>
                             <td class="px-4 py-3">{{ cert.cert_category }}</td>
                             <td class="px-4 py-3">{{ cert.cert_not_valid_before.strftime('%d.%m.%Y %H:%M:%S') }}</td>
                             <td class="px-4 py-3">{{ cert.cert_not_valid_after.strftime('%d.%m.%Y %H:%M:%S') }}</td>
