@@ -90,8 +90,6 @@ function updateView() {
             if ((currentPage - 1) * pageSize < counter && counter <= currentPage * pageSize) {
                 // If item is on current page, show item in table
                 certificates[i].classList.remove("hidden")
-                // Parse current indent from classList
-                let oldIndent = certificates[i].cells[0].classList[0]
                 // Check if level is increasing
                 let newLevel = parseInt(certificates[i].cells[1].innerText.trim())
                 if (newLevel > indentLevel) {
@@ -107,7 +105,7 @@ function updateView() {
                 // Calculate indent and create corresponding indent class tring
                 let newIndent = `pl-${Math.min(indentFactor * 4, 64)}`
                 // Replace old indent with new indent
-                certificates[i].cells[0].classList.replace(oldIndent, newIndent)
+                certificates[i].cells[0].classList[0] = newIndent
             } else {
                 // If item is not on current page, hide item in table
                 certificates[i].classList.add("hidden")
