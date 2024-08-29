@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "flowbite": "^1.6.3",
+    "tailwind": "^4.0.0"
+  }
+}
