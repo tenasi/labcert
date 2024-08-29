@@ -63,10 +63,6 @@
     let match = function () { return true }
     // This variable controls if a table row is visible or not
     let matches = {}
-    for (let i = 0; i < certificates.length; i++) {
-        // Match all per default
-        matches[i] = true
-    }
     // This variable stores the total number of matches with given filters applied
     let numberOfMatches = certificates.length
     // This variable stores the total number of pages with given filters applied
@@ -76,6 +72,16 @@
     let indentLevel = 0
     // This variable holds the indent factor of the last shown row
     let indentFactor = 0
+
+    // This variable stores a mapping between certificate ids and row number
+    let certIdMap = {}
+    // Iterate through all certificates
+    for (let i = 0; i < certificates.length; i++) {
+        // Get certificate id from certificate table
+        let certId = parseInt(certificates[i].cells[1].innerText.trim())
+        // Save row number in map. This can be done safely since certificate id is unique
+        certIdMap[certId] = i
+    }
 
     /**
      * Updates the browser view based on the selection in the variable @var matches
@@ -94,7 +100,7 @@
                     // If item is on current page, show item in table
                     certificates[i].classList.remove("hidden")
                     // Check if level is increasing
-                    let newLevel = parseInt(certificates[i].cells[1].innerText.trim())
+                    let newLevel = parseInt(certificates[i].cells[2].innerText.trim())
                     if (newLevel > indentLevel) {
                         // If level is increasing, remember new level and increase indent factor
                         indentLevel = newLevel
@@ -203,22 +209,29 @@
             // Get certificate name from row
             let certName = row.cells[0].innerText.trim().toLowerCase()
             // Get certificate issuer id from row
-            let certIssuerId = row.cells[2].innerText.trim()
+            let issuerId = row.cells[3].innerText.trim()
             // Get certificate issuer name from row
-            let certIssuer = row.cells[3].innerText.trim().toLowerCase()
+            let issuerName = row.cells[4].innerText.trim().toLowerCase()
             // Get certificate catgory from row
-            let certCategory = row.cells[4].innerText.trim()
+            let certCategory = row.cells[5].innerText.trim()
             // Get certificate status from row
-            let certStatus = row.cells[7].innerText.trim()
+            let certStatus = row.cells[8].innerText.trim()
             // Check if certificate matches filter and match function
-            if (filter.has(certCategory) && filter.has(certStatus) && match(certName, certIssuer)) {
+            if (filter.has(certCategory) && filter.has(certStatus) && match(certName, issuerName)) {
                 // If certificate matches set corresponding entry in matches
                 matches[i] = true
                 // Ensure that all issuing certificates in the chain are also included in matches
-                while (certIssuerId) {
-                    certIssuerId = parseInt(certIssuerId) - 1
-                    matches[certIssuerId] = filter.has(certificates[certIssuerId].cells[4].innerText.trim())
-                    certIssuerId = certificates[certIssuerId].cells[2].innerText.trim()
+                while (issuerId) {
+                    // Parse issuer id
+                    issuerId = parseInt(issuerId)
+                    // Get issuer row number from map
+                    let issuerRowId = certIdMap[issuerId]
+                    // Get issuer category from certificate table
+                    let issuerCategory = certificates[issuerRowId].cells[5].innerText.trim()
+                    // Check if issuer category matches current filter and add to matches
+                    matches[issuerRowId] = filter.has(issuerCategory)
+                    // Get issuer id from issuer for next loop
+                    issuerId = certificates[issuerRowId].cells[3].innerText.trim()
                 }
             } else {
                 // If certificate does not match, remove it from matches
